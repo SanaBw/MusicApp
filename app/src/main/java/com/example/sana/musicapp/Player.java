@@ -15,7 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 public class Player extends AppCompatActivity {
@@ -24,7 +27,7 @@ public class Player extends AppCompatActivity {
     public static ArrayList<File> mySongs;
     public static int position;
     public static Uri u;
-    public static Button btnPlay, btnP, btnN, btnBack, btnFav;
+    public static Button btnPlay, btnP, btnN, btnBack, btnFav, btnLoc;
     public static TextView songName;
     private static Context context;
     private Session session;
@@ -43,6 +46,7 @@ public class Player extends AppCompatActivity {
         songName = (TextView) findViewById(R.id.songName);
         btnBack = (Button) findViewById(R.id.btnBack);
         btnFav = (Button) findViewById(R.id.btnFav);
+        btnLoc = (Button) findViewById(R.id.btnLoc);
         context = getApplicationContext();
         session = new Session(this);
         database = new Database(Player.this);
@@ -90,11 +94,11 @@ public class Player extends AppCompatActivity {
 
         //when song finishes
         mp.setOnCompletionListener(
-            new OnCompletionListener() {
-                public void onCompletion(MediaPlayer mp) {
-                    NextSong();
+                new OnCompletionListener() {
+                    public void onCompletion(MediaPlayer mp) {
+                        NextSong();
+                    }
                 }
-            }
         );
 
         //previous song button clicked
@@ -115,23 +119,23 @@ public class Player extends AppCompatActivity {
 
         //background image clicked -> change to new random one
         image.setOnClickListener(
-            new View.OnClickListener() {
-                public void onClick(View v) {
-                    Random ran = new Random();
-                    int j = ran.nextInt(photos.length);
-                    image.setImageResource(photos[j]);
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Random ran = new Random();
+                        int j = ran.nextInt(photos.length);
+                        image.setImageResource(photos[j]);
+                    }
                 }
-            }
         );
 
         //LIST text is clicked
         btnBack.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Player.super.onBackPressed();
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Player.super.onBackPressed();
+                    }
                 }
-            }
         );
 
         //make this song one of user's favorites
@@ -144,6 +148,15 @@ public class Player extends AppCompatActivity {
                     database.addFavorites(user, song);
                     Toast.makeText(context, "Song added to favorites", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        //show all locations where this song has been played
+        btnLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String song = mySongs.get(position).getName().replace(".mp3", "").replace(".wav", "");
+                startActivity(new Intent(Player.this, Location.class).putExtra("song", song));
             }
         });
     }

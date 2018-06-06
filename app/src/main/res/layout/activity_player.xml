@@ -36,7 +36,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="20dp"
         android:background="@drawable/round_button"
-        android:onClick="onClick"
         android:text="&gt;I"
         android:textAppearance="@android:style/TextAppearance.Material.Display3"
         android:textColor="@color/colorAccent"
@@ -113,6 +112,16 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/fav"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnLoc"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/loc"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
